@@ -1,7 +1,7 @@
 
 #include <QApplication>
 
-#include "restinspector.h"
+#include "RestInspector.h"
 
 int main(int argc, char *argv[])
 {
