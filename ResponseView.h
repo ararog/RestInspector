@@ -7,8 +7,7 @@
 class QGridLayout;
 class QHBoxLayout;
 class QLabel;
-class QLineEdit;
-class QComboBox;
+class QTabWidget;
 class QPushButton;
 class QVBoxLayout;
 

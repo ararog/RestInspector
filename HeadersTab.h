@@ -8,6 +8,8 @@ class HeadersTab : public QWidget
 {
     Q_OBJECT
 
+public:
+    HeadersTab();
 };
 
 #endif // HEADERSTAB_H
