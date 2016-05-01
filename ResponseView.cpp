@@ -2,6 +2,9 @@
 #include <QStringList>
 
 #include "ResponseView.h"
+#include "BodyTab.h"
+#include "CookiesTab.h"
+#include "HeadersTab.h"
 
 ResponseView::ResponseView()
 {

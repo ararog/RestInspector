@@ -8,6 +8,8 @@ class CookiesTab : public QWidget
 {
     Q_OBJECT
 
+public:
+    CookiesTab();
 };
 
 #endif // COOKIESTAB_H

@@ -8,6 +8,8 @@ class BodyTab : public QWidget
 {
     Q_OBJECT
 
+public:
+    BodyTab();
 };
 
 #endif // BODYTAB_H
