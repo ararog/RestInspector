@@ -8,8 +8,13 @@
 
 ResponseView::ResponseView()
 {
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+
     tabs = new QTabWidget;
     tabs->addTab(new BodyTab(), tr("Body"));
     tabs->addTab(new CookiesTab(), tr("Cookies"));
     tabs->addTab(new HeadersTab(), tr("Headers"));
+
+    mainLayout->addWidget(tabs);
+    setLayout(mainLayout);
 }
