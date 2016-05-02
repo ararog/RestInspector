@@ -5,5 +5,14 @@
 
 BodyTab::BodyTab()
 {
+  QVBoxLayout *mainLayout = new QVBoxLayout;
+  responseEditor = new QTextEdit;
+  mainLayout->addWidget(responseEditor);
+  setLayout(mainLayout);
+}
 
+void BodyTab::processBody(QByteArray body, QString mimeType)
+{
+  QString content = QString::fromUtf8(body.data());
+  responseEditor->setPlainText(content);
 }

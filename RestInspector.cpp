@@ -1,5 +1,7 @@
 #include <QtWidgets>
 #include <QStringList>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
 
 #include "RestInspector.h"
 #include "ResponseView.h"
@@ -9,6 +11,10 @@ RestInspector::RestInspector()
     createHistoryLayout();
     createFieldsLayout();
     createCommandsLayout();
+
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(replyFinished(QNetworkReply*)));
 
     mainLayout = new QHBoxLayout;
     mainLayout->addLayout(historyLayout);
@@ -40,10 +46,20 @@ void RestInspector::resizeEvent(QResizeEvent * /* event */)
     */
 }
 
-void RestInspector::sendRequest()
+void RestInspector::replyFinished(QNetworkReply* reply)
 {
     clientLayout->takeAt(3);
+    responseView->processResponse(reply);
     responseView->show();
+}
+
+void RestInspector::sendRequest()
+{
+    QNetworkRequest request = QNetworkRequest(QUrl(urlEdit->text()));
+    QString method = httpMethodsCombo->currentText();
+    QByteArray verb;
+    verb.append(method);
+    manager->sendCustomRequest(request, verb);
 }
 
 void RestInspector::resetRequest()

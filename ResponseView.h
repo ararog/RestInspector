@@ -10,6 +10,8 @@ class QLabel;
 class QTabWidget;
 class QPushButton;
 class QVBoxLayout;
+class QNetworkReply;
+class BodyTab;
 
 class ResponseView : public QWidget
 {
@@ -17,10 +19,12 @@ class ResponseView : public QWidget
 
 public:
     ResponseView();
+    void processResponse(QNetworkReply* reply);
 
 private:
 
     QTabWidget *tabs;
+    BodyTab *bodyTab;
 
 };
 

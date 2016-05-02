@@ -12,6 +12,9 @@ class QComboBox;
 class QPushButton;
 class QVBoxLayout;
 class ResponseView;
+class QNetworkReply;
+class QNetworkRequest;
+class QNetworkAccessManager;
 
 class RestInspector : public QWidget
 {
@@ -28,12 +31,15 @@ private slots:
     void resetRequest();
     void toggleUrlParams();
     void toggleHeaders();
+    void replyFinished(QNetworkReply* reply);
 
 private:
     void createHistoryLayout();
     void createFieldsLayout();
     void createCommandsLayout();
     QPushButton *createButton(const QString &text, QWidget *receiver, const char *member);
+
+    QNetworkAccessManager *manager; 
 
     QLineEdit *urlEdit;
     QComboBox *httpMethodsCombo;
