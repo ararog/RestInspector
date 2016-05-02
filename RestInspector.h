@@ -28,6 +28,7 @@ protected:
 
 private slots:
     void sendRequest();
+    void saveRequest();
     void resetRequest();
     void toggleUrlParams();
     void toggleHeaders();
@@ -39,12 +40,13 @@ private:
     void createCommandsLayout();
     QPushButton *createButton(const QString &text, QWidget *receiver, const char *member);
 
-    QNetworkAccessManager *manager; 
+    QNetworkAccessManager *manager;
 
     QLineEdit *urlEdit;
     QComboBox *httpMethodsCombo;
 
     QPushButton *sendRequestButton;
+    QPushButton *saveRequestButton;
     QPushButton *resetRequestButton;
     QPushButton *showUrlParamsButton;
     QPushButton *showHeadersButton;

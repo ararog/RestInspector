@@ -33,17 +33,16 @@ RestInspector::RestInspector()
     setLayout(mainLayout);
 
     setWindowTitle(tr("RestInspector"));
-    resize(300, 200);
+
+    QRect rec = QApplication::desktop()->screenGeometry();
+    int height = rec.height();
+    int width = rec.width();
+    resize(width / 2, height / 2);
 }
 
 void RestInspector::resizeEvent(QResizeEvent * /* event */)
 {
-    /*
-    QSize scaledSize = originalPixmap.size();
-    scaledSize.scale(screenshotLabel->size(), Qt::KeepAspectRatio);
-    if (!screenshotLabel->pixmap() || scaledSize != screenshotLabel->pixmap()->size())
-        updateScreenshotLabel();
-    */
+
 }
 
 void RestInspector::replyFinished(QNetworkReply* reply)
@@ -63,6 +62,15 @@ void RestInspector::sendRequest()
 }
 
 void RestInspector::resetRequest()
+{
+    urlEdit->setText("");
+    httpMethodsCombo->setCurrentIndex(0);
+    responseView->clear();
+    responseView->hide();
+    clientLayout->addStretch();
+}
+
+void RestInspector::saveRequest()
 {
 
 }
@@ -93,11 +101,11 @@ void RestInspector::createFieldsLayout()
     httpMethodsCombo->addItems(methods);
 
     showUrlParamsButton = createButton(tr("URL Params"), this, SLOT(toggleUrlParams()));
-    showHeadersButton = createButton(tr("Reset"), this, SLOT(toggleHeaders()));
+    showHeadersButton = createButton(tr("Headers"), this, SLOT(toggleHeaders()));
 
     fieldsLayout = new QHBoxLayout;
-    fieldsLayout->addWidget(urlEdit);
     fieldsLayout->addWidget(httpMethodsCombo);
+    fieldsLayout->addWidget(urlEdit);
     fieldsLayout->addWidget(showUrlParamsButton);
     fieldsLayout->addWidget(showHeadersButton);
 }
@@ -105,10 +113,12 @@ void RestInspector::createFieldsLayout()
 void RestInspector::createCommandsLayout()
 {
     sendRequestButton = createButton(tr("Send"), this, SLOT(sendRequest()));
+    saveRequestButton = createButton(tr("Save"), this, SLOT(saveRequest()));
     resetRequestButton = createButton(tr("Reset"), this, SLOT(resetRequest()));
 
     commandsLayout = new QHBoxLayout;
     commandsLayout->addWidget(sendRequestButton);
+    commandsLayout->addWidget(saveRequestButton);
     commandsLayout->addStretch();
     commandsLayout->addWidget(resetRequestButton);
 }

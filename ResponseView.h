@@ -12,6 +12,8 @@ class QPushButton;
 class QVBoxLayout;
 class QNetworkReply;
 class BodyTab;
+class HeadersTab;
+class CookiesTab;
 
 class ResponseView : public QWidget
 {
@@ -19,12 +21,15 @@ class ResponseView : public QWidget
 
 public:
     ResponseView();
+    void clear();
     void processResponse(QNetworkReply* reply);
 
 private:
 
     QTabWidget *tabs;
     BodyTab *bodyTab;
+    HeadersTab *headersTab;
+    CookiesTab *cookiesTab;
 
 };
 

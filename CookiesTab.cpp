@@ -7,3 +7,13 @@ CookiesTab::CookiesTab()
 {
 
 }
+
+void CookiesTab::clear()
+{
+
+}
+
+void CookiesTab::processCookies()
+{
+
+}

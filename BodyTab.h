@@ -12,6 +12,7 @@ class BodyTab : public QWidget
 
 public:
     BodyTab();
+    void clear();
     void processBody(QByteArray body, QString mimeType);
 
 private:

@@ -10,6 +10,8 @@ class CookiesTab : public QWidget
 
 public:
     CookiesTab();
+    void clear();
+    void processCookies();
 };
 
 #endif // COOKIESTAB_H
