@@ -27,11 +27,7 @@
 *.out
 *.app
 Makefile
-moc_BodyTab.cpp
-moc_CookiesTab.cpp
-moc_HeadersTab.cpp
-moc_ResponseView.cpp
-moc_RestInspector.cpp
+moc_*.cpp
 cmake_install.cmake
 CMakeCache.txt
 restinspector
