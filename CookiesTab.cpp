@@ -5,7 +5,8 @@
 
 CookiesTab::CookiesTab()
 {
-
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
 }
 
 void CookiesTab::clear()
