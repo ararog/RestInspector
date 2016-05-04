@@ -40,8 +40,8 @@ void HeadersTab::processHeaders(const QList<QNetworkReply::RawHeaderPair>& pairs
     headersTable->resizeColumnsToContents();
 }
 
-void HeadersTab::createHeaderTable() {
-
+void HeadersTab::createHeaderTable()
+{
     QStringList columns;
     columns << "name" << "value";
 

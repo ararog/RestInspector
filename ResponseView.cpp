@@ -33,9 +33,15 @@ void ResponseView::clear()
 
 void ResponseView::processResponse(QNetworkReply *reply)
 {
-    QVariant mimeType = reply->header(QNetworkRequest::ContentTypeHeader);
-    QByteArray responseArray = reply->readAll();
+    QVariant mimeTypeHeader = reply->header(QNetworkRequest::ContentTypeHeader);
+    QVariant cookiesHeader = reply->header(QNetworkRequest::CookieHeader);
+    QVariant attribute = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
 
-    bodyTab->processBody(responseArray, mimeType.toString());
+    statusCode = attribute.toInt();
+    QByteArray responseArray = reply->readAll();
+    QList<QNetworkCookie> cookies = cookiesHeader.value<QList<QNetworkCookie> >()
+
+    bodyTab->processBody(responseArray, mimeTypeHeader.toString());
+    cookiesTab->processCookies(cookies);
     headersTab->processHeaders(reply->rawHeaderPairs());
 }

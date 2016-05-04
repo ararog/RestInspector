@@ -4,6 +4,9 @@
 #include <QPixmap>
 #include <QWidget>
 
+class QTableWidget;
+class QNetworkCookie;
+
 class CookiesTab : public QWidget
 {
     Q_OBJECT
@@ -11,7 +14,11 @@ class CookiesTab : public QWidget
 public:
     CookiesTab();
     void clear();
-    void processCookies();
+    void processCookies(const QList<QNetworkCookie>& cookies);
+
+private:
+    void createCookiesTable();
+    QTableWidget *cookiesTable;
 };
 
 #endif // COOKIESTAB_H

@@ -30,6 +30,7 @@ private:
     BodyTab *bodyTab;
     HeadersTab *headersTab;
     CookiesTab *cookiesTab;
+    int statusCode;
 
 };
 
