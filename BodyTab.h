@@ -21,9 +21,12 @@ public:
 private slots:
     void prettyFormat();
     void rawFormat();
+    void formatChanged(const QString &text);
 
 private:
     void createFormmatLayout();
+    void formatAsJson(const QString &content);
+    void formatAsXml(const QString &content);
     QPushButton *createButton(const QString &text, QWidget *receiver, const char *member);
 
     QTextEdit *responseEditor;

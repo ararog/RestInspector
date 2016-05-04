@@ -24,24 +24,33 @@ void BodyTab::processBody(QByteArray body, QString mimeType)
 {
     responseMimeType = mimeType;
     responseContent = QString::fromUtf8(body.data());
-
     this->prettyFormat();
+}
+
+void BodyTab::formatAsJson(const QString &content)
+{
+    QJsonDocument doc = QJsonDocument::fromJson(content.toUtf8());
+    QString formattedString = doc.toJson(QJsonDocument::Indented);
+    responseEditor->setPlainText(formattedString);
+}
+
+void BodyTab::formatAsXml(const QString &content)
+{
+    QDomDocument doc("xml");
+    doc.setContent(content);
+    QString formattedString = doc.toString(4);
+    responseEditor->setPlainText(formattedString);
 }
 
 void BodyTab::prettyFormat()
 {
     if(responseMimeType.contains("application/json"))
     {
-        QJsonDocument doc = QJsonDocument::fromJson(responseContent.toUtf8());
-        QString formattedString = doc.toJson(QJsonDocument::Indented);
-        responseEditor->setPlainText(formattedString);
+        formatAsJson(responseContent);
     }
     else if(responseMimeType.contains("text/xml"))
     {
-        QDomDocument doc("xml");
-        doc.setContent(responseContent);
-        QString formattedString = doc.toString(4);
-        responseEditor->setPlainText(formattedString);
+        formatAsXml(responseContent);
     }
     else
     {
@@ -55,9 +64,23 @@ void BodyTab::prettyFormat()
 void BodyTab::rawFormat()
 {
     responseEditor->setPlainText(responseContent);
-
     prettyButton->setChecked(false);
     rawButton->setChecked(true);
+}
+
+void BodyTab::formatChanged(const QString &text)
+{
+    if(text == "JSON")
+    {
+        formatAsJson(responseContent);
+    }
+    else if(text == "XML")
+    {
+        formatAsXml(responseContent);
+    }
+    else {
+        responseEditor->setPlainText(responseContent);
+    }
 }
 
 void BodyTab::createFormmatLayout()
@@ -69,6 +92,7 @@ void BodyTab::createFormmatLayout()
     formats << "JSON" << "XML" << "HTML" << "TEXT";
     formatsCombo = new QComboBox;
     formatsCombo->addItems(formats);
+    formatsCombo->connect(formatsCombo, SIGNAL(currentTextChanged(const QString &)), this, SLOT(formatChanged(const QString &)));
 
     formatLayout = new QHBoxLayout;
     formatLayout->addWidget(prettyButton);

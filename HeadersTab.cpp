@@ -1,6 +1,8 @@
 #include <QtWidgets>
 #include <QStringList>
 
+#include <boost/foreach.hpp>
+
 #include "HeadersTab.h"
 
 HeadersTab::HeadersTab()
@@ -21,18 +23,21 @@ void HeadersTab::clear()
 void HeadersTab::processHeaders(const QList<QNetworkReply::RawHeaderPair>& pairs)
 {
     headersTable->setRowCount(pairs.count());
-    for(int i = 0; i < pairs.count(); i++)
+    int row = 0;
+    BOOST_FOREACH(QNetworkReply::RawHeaderPair pair, pairs)
     {
-        QNetworkReply::RawHeaderPair pair = pairs.value(i);
-
         QString content = QString::fromUtf8(pair.first.data());
         QTableWidgetItem *nameItem = new QTableWidgetItem(content);
-        headersTable->setItem(i, 0, nameItem);
+        headersTable->setItem(row, 0, nameItem);
 
         content = QString::fromUtf8(pair.second.data());
         QTableWidgetItem *valueItem = new QTableWidgetItem(content);
-        headersTable->setItem(i, 1, valueItem);
+        headersTable->setItem(row, 1, valueItem);
+
+        row++;
     }
+
+    headersTable->resizeColumnsToContents();
 }
 
 void HeadersTab::createHeaderTable() {
@@ -45,5 +50,5 @@ void HeadersTab::createHeaderTable() {
     headersTable->setShowGrid(false);
     headersTable->setRowCount(2);
     headersTable->setColumnCount(2);
-    headersTable->setHorizontalHeaderLabels(columns);    
+    headersTable->setHorizontalHeaderLabels(columns);
 }
