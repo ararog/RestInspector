@@ -4,6 +4,7 @@
 #include <QNetworkRequest>
 
 #include "RestInspector.h"
+#include "PairsEditor.h"
 #include "ResponseView.h"
 
 RestInspector::RestInspector()
@@ -22,7 +23,14 @@ RestInspector::RestInspector()
     responseView = new ResponseView;
     responseView->hide();
 
+    paramsEditor = new PairsEditor;
+    paramsEditor->hide();
+    headersEditor = new PairsEditor;
+    headersEditor->hide();
+
     clientLayout = new QVBoxLayout;
+    clientLayout->addWidget(paramsEditor);
+    clientLayout->addWidget(headersEditor);
     clientLayout->addLayout(fieldsLayout);
     clientLayout->addLayout(commandsLayout);
     clientLayout->addWidget(responseView);
@@ -77,12 +85,18 @@ void RestInspector::saveRequest()
 
 void RestInspector::toggleUrlParams()
 {
-
+    if(paramsEditor->isVisible())
+        paramsLayout->hide();
+    else
+        paramsLayout->show();
 }
 
 void RestInspector::toggleHeaders()
 {
-
+    if(headersEditor->isVisible())
+        headersEditor->hide();
+    else
+        headersEditor->show();
 }
 
 void RestInspector::createHistoryLayout()

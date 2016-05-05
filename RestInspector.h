@@ -54,6 +54,8 @@ private:
     ResponseView *responseView;
 
     QHBoxLayout *mainLayout;
+    QVBoxLayout *headersLayout;
+    QVBoxLayout *paramsLayout;
     QVBoxLayout *historyLayout;
     QVBoxLayout *clientLayout;
     QHBoxLayout *fieldsLayout;

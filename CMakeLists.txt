@@ -16,6 +16,6 @@ include_directories(${Boost_INCLUDE_DIRS} ${Qt5Xml_INCLUDE_DIRS} ${Qt5Core_INCLU
 
 add_definitions(${Qt5Widgets_DEFINITIONS})
 
-add_executable(restinspector main.cpp RestInspector.cpp ResponseView.cpp CookiesTab.cpp BodyTab.cpp HeadersTab.cpp)
+add_executable(restinspector main.cpp PairsEditor.cpp RestInspector.cpp ResponseView.cpp CookiesTab.cpp BodyTab.cpp HeadersTab.cpp)
 
 target_link_libraries(restinspector ${Boost_LIBRARIES} Qt5::Xml Qt5::Core Qt5::Widgets Qt5::Network)
