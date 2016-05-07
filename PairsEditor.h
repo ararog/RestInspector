@@ -5,17 +5,24 @@
 
 class QHBoxLayout;
 class QVBoxLayout;
+template class QPair<QString, QString>;
 
 class PairsEditor : public QWidget
 {
     Q_OBJECT
 
 public:
-	PairsEditor();
+	PairsEditor(const QString &keyPlaceholder);
+	const QList<QPair<QString, QString> > & pairs();
+
+private slots:
+	void deletePair();
 
 private:
-	QHBoxLayout *createFields(const QString &keyPlaceholder);
+	bool eventFilter(QObject *target, QEvent *event);
+	QHBoxLayout *createFields();
 
+	QString placeholder;
     QVBoxLayout *mainLayout;
 };
 

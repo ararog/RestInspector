@@ -3,6 +3,8 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 
+#include <boost/foreach.hpp>
+
 #include "RestInspector.h"
 #include "PairsEditor.h"
 #include "ResponseView.h"
@@ -23,15 +25,22 @@ RestInspector::RestInspector()
     responseView = new ResponseView;
     responseView->hide();
 
-    paramsEditor = new PairsEditor;
+	QVBoxLayout *editorsLayout = new QVBoxLayout;
+    paramsEditor = new PairsEditor("URL Parameter Key");
     paramsEditor->hide();
-    headersEditor = new PairsEditor;
+	editorsLayout->addWidget(paramsEditor);
+
+    headersEditor = new PairsEditor("Header");
     headersEditor->hide();
+	editorsLayout->addWidget(headersEditor);
+
+	QHBoxLayout *extrasLayout = new QHBoxLayout;
+	extrasLayout->addLayout(editorsLayout);
+	extrasLayout->addStretch();
 
     clientLayout = new QVBoxLayout;
-    clientLayout->addWidget(paramsEditor);
-    clientLayout->addWidget(headersEditor);
     clientLayout->addLayout(fieldsLayout);
+	clientLayout->addLayout(extrasLayout);
     clientLayout->addLayout(commandsLayout);
     clientLayout->addWidget(responseView);
     clientLayout->addStretch();
@@ -55,18 +64,40 @@ void RestInspector::resizeEvent(QResizeEvent * /* event */)
 
 void RestInspector::replyFinished(QNetworkReply* reply)
 {
-    clientLayout->takeAt(3);
+    clientLayout->takeAt(5);
     responseView->processResponse(reply);
     responseView->show();
 }
 
 void RestInspector::sendRequest()
 {
-    QNetworkRequest request = QNetworkRequest(QUrl(urlEdit->text()));
-    QString method = httpMethodsCombo->currentText();
-    QByteArray verb;
-    verb.append(method);
-    manager->sendCustomRequest(request, verb);
+	QPair<QString, QString> pair;
+
+	if (! urlEdit->text().isEmpty())
+	{
+		QUrl url = QUrl(urlEdit->text());
+		QUrlQuery urlQuery;
+
+		QList<QPair<QString, QString> > params = headersEditor->pairs();
+		BOOST_FOREACH(pair, params)
+		{
+			urlQuery.addQueryItem(pair.first, pair.second);
+		}
+		url.setQuery(urlQuery);
+
+		QNetworkRequest request = QNetworkRequest(url);
+		QString method = httpMethodsCombo->currentText();
+		QByteArray verb;
+		verb.append(method);
+
+		QList<QPair<QString, QString> > headers = headersEditor->pairs();
+		BOOST_FOREACH(pair, headers)
+		{
+			request.setRawHeader(QByteArray().append(pair.first), QByteArray().append(pair.second));
+		}
+
+		manager->sendCustomRequest(request, verb);
+	}
 }
 
 void RestInspector::resetRequest()
