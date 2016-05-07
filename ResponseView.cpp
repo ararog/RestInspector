@@ -1,6 +1,7 @@
 #include <QtWidgets>
 #include <QStringList>
 #include <QNetworkReply>
+#include <QNetworkCookie>
 
 #include "ResponseView.h"
 #include "BodyTab.h"
@@ -39,7 +40,7 @@ void ResponseView::processResponse(QNetworkReply *reply)
 
     statusCode = attribute.toInt();
     QByteArray responseArray = reply->readAll();
-    QList<QNetworkCookie> cookies = cookiesHeader.value<QList<QNetworkCookie> >()
+	QList<QNetworkCookie> cookies = cookiesHeader.value<QList<QNetworkCookie> >();
 
     bodyTab->processBody(responseArray, mimeTypeHeader.toString());
     cookiesTab->processCookies(cookies);

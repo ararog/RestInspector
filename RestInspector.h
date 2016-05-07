@@ -15,6 +15,7 @@ class ResponseView;
 class QNetworkReply;
 class QNetworkRequest;
 class QNetworkAccessManager;
+class PairsEditor;
 
 class RestInspector : public QWidget
 {
@@ -53,9 +54,10 @@ private:
 
     ResponseView *responseView;
 
+	PairsEditor *headersEditor;
+	PairsEditor *paramsEditor;
+
     QHBoxLayout *mainLayout;
-    QVBoxLayout *headersLayout;
-    QVBoxLayout *paramsLayout;
     QVBoxLayout *historyLayout;
     QVBoxLayout *clientLayout;
     QHBoxLayout *fieldsLayout;

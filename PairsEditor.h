@@ -4,9 +4,6 @@
 #include <QWidget>
 
 class QHBoxLayout;
-class QLabel;
-class QLineEdit;
-class QPushButton;
 class QVBoxLayout;
 
 class PairsEditor : public QWidget
@@ -14,12 +11,12 @@ class PairsEditor : public QWidget
     Q_OBJECT
 
 public:
-    PairsEditor();
+	PairsEditor();
 
 private:
-    QHBoxLayout *createFields(const QString &keyPlaceholder)
+	QHBoxLayout *createFields(const QString &keyPlaceholder);
 
     QVBoxLayout *mainLayout;
-}
+};
 
 #endif // PAIRSEDITOR_H

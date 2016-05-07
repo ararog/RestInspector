@@ -86,9 +86,9 @@ void RestInspector::saveRequest()
 void RestInspector::toggleUrlParams()
 {
     if(paramsEditor->isVisible())
-        paramsLayout->hide();
+        paramsEditor->hide();
     else
-        paramsLayout->show();
+        paramsEditor->show();
 }
 
 void RestInspector::toggleHeaders()

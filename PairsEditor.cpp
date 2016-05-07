@@ -8,12 +8,12 @@ PairsEditor::PairsEditor()
     setLayout(mainLayout);
 }
 
-QHBoxLayout *RestInspector::createFields(const QString &keyPlaceholder)
+QHBoxLayout *PairsEditor::createFields(const QString &keyPlaceholder)
 {
     QHBoxLayout *pairLayout = new QHBoxLayout;
 
     QLineEdit *keyEdit = new QLineEdit;
-    keyEdit->setPlaceholderText(tr(keyPlaceholder));
+    keyEdit->setPlaceholderText(keyPlaceholder);
     pairLayout->addWidget(keyEdit);
 
     QLineEdit *valueEdit = new QLineEdit;
