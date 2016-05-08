@@ -25,7 +25,7 @@ RestInspector::RestInspector()
     responseView = new ResponseView;
     responseView->hide();
 
-	QVBoxLayout *editorsLayout = new QVBoxLayout;
+    QVBoxLayout *editorsLayout = new QVBoxLayout;
     paramsEditor = new PairsEditor("URL Parameter Key");
     paramsEditor->hide();
 	editorsLayout->addWidget(paramsEditor);
@@ -34,13 +34,13 @@ RestInspector::RestInspector()
     headersEditor->hide();
 	editorsLayout->addWidget(headersEditor);
 
-	QHBoxLayout *extrasLayout = new QHBoxLayout;
-	extrasLayout->addLayout(editorsLayout);
-	extrasLayout->addStretch();
+    QHBoxLayout *extrasLayout = new QHBoxLayout;
+    extrasLayout->addLayout(editorsLayout);
+    extrasLayout->addStretch();
 
     clientLayout = new QVBoxLayout;
     clientLayout->addLayout(fieldsLayout);
-	clientLayout->addLayout(extrasLayout);
+    clientLayout->addLayout(extrasLayout);
     clientLayout->addLayout(commandsLayout);
     clientLayout->addWidget(responseView);
     clientLayout->addStretch();
@@ -78,7 +78,7 @@ void RestInspector::sendRequest()
 		QUrl url = QUrl(urlEdit->text());
 		QUrlQuery urlQuery;
 
-		QList<QPair<QString, QString> > params = headersEditor->pairs();
+        QList<QPair<QString, QString> > params = paramsEditor->pairs();
 		BOOST_FOREACH(pair, params)
 		{
 			urlQuery.addQueryItem(pair.first, pair.second);
@@ -95,9 +95,9 @@ void RestInspector::sendRequest()
 		{
 			request.setRawHeader(QByteArray().append(pair.first), QByteArray().append(pair.second));
 		}
-
+        
 		manager->sendCustomRequest(request, verb);
-	}
+    }
 }
 
 void RestInspector::resetRequest()

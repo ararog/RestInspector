@@ -26,14 +26,14 @@ bool PairsEditor::eventFilter(QObject *target, QEvent *event)
 	return false;
 }
 
-const QList<QPair<QString, QString> > & PairsEditor::pairs()
+QList<QPair<QString, QString> > PairsEditor::pairs()
 {
 	QList<QPair<QString, QString> > pairs;
 
 	BOOST_FOREACH(QObject* object, mainLayout->children())
 	{
 		QHBoxLayout* layout = qobject_cast<QHBoxLayout *>(object);
-		
+
 		QLineEdit* keyEdit = qobject_cast<QLineEdit *>(layout->itemAt(0)->widget());
 		QLineEdit* valEdit = qobject_cast<QLineEdit *>(layout->itemAt(1)->widget());
 

@@ -13,7 +13,7 @@ class PairsEditor : public QWidget
 
 public:
 	PairsEditor(const QString &keyPlaceholder);
-	const QList<QPair<QString, QString> > & pairs();
+	QList<QPair<QString, QString> > pairs();
 
 private slots:
 	void deletePair();
