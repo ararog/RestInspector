@@ -22,6 +22,9 @@ RestInspector::RestInspector()
     mainLayout = new QHBoxLayout;
     mainLayout->addLayout(historyLayout);
 
+    blankView = new QWidget;
+    blankView->show();
+
     responseView = new ResponseView;
     responseView->hide();
 
@@ -43,7 +46,7 @@ RestInspector::RestInspector()
     clientLayout->addLayout(extrasLayout);
     clientLayout->addLayout(commandsLayout);
     clientLayout->addWidget(responseView);
-    clientLayout->addStretch();
+    clientLayout->addWidget(blankView);
 
     mainLayout->addLayout(clientLayout);
 
@@ -64,8 +67,8 @@ void RestInspector::resizeEvent(QResizeEvent * /* event */)
 
 void RestInspector::replyFinished(QNetworkReply* reply)
 {
-    clientLayout->takeAt(5);
     responseView->processResponse(reply);
+    blankView->hide();
     responseView->show();
 }
 
@@ -95,7 +98,7 @@ void RestInspector::sendRequest()
 		{
 			request.setRawHeader(QByteArray().append(pair.first), QByteArray().append(pair.second));
 		}
-        
+
 		manager->sendCustomRequest(request, verb);
     }
 }
@@ -104,6 +107,8 @@ void RestInspector::resetRequest()
 {
     urlEdit->setText("");
     httpMethodsCombo->setCurrentIndex(0);
+    paramsEditor->clear();
+    headersEditor->clear();
     responseView->clear();
     responseView->hide();
     clientLayout->addStretch();

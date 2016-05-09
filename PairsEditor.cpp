@@ -26,6 +26,16 @@ bool PairsEditor::eventFilter(QObject *target, QEvent *event)
 	return false;
 }
 
+void PairsEditor::clear()
+{
+    BOOST_FOREACH(QObject* object, mainLayout->children())
+	{
+        delete object;
+    }
+
+    mainLayout->addLayout(createFields());
+}
+
 QList<QPair<QString, QString> > PairsEditor::pairs()
 {
 	QList<QPair<QString, QString> > pairs;

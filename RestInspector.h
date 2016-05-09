@@ -43,6 +43,8 @@ private:
 
     QNetworkAccessManager *manager;
 
+    QWidget *blankView;
+
     QLineEdit *urlEdit;
     QComboBox *httpMethodsCombo;
 
