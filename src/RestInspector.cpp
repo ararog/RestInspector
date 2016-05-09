@@ -111,7 +111,7 @@ void RestInspector::resetRequest()
     headersEditor->clear();
     responseView->clear();
     responseView->hide();
-    clientLayout->addStretch();
+    blankView->show();
 }
 
 void RestInspector::saveRequest()

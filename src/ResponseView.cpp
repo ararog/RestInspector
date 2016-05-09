@@ -4,22 +4,22 @@
 #include <QNetworkCookie>
 
 #include "ResponseView.h"
-#include "BodyTab.h"
-#include "CookiesTab.h"
-#include "HeadersTab.h"
+#include "TabResponseBody.h"
+#include "TabResponseCookies.h"
+#include "TabResponseHeaders.h"
 
 ResponseView::ResponseView()
 {
     QVBoxLayout *mainLayout = new QVBoxLayout;
 
-    bodyTab = new BodyTab();
-    cookiesTab = new CookiesTab();
-    headersTab = new HeadersTab();
+    tabBody = new TabResponseBody();
+    tabCookies = new TabResponseCookies();
+    tabHeaders = new TabResponseHeaders();
 
     tabs = new QTabWidget;
-    tabs->addTab(bodyTab, tr("Body"));
-    tabs->addTab(cookiesTab, tr("Cookies"));
-    tabs->addTab(headersTab, tr("Headers"));
+    tabs->addTab(tabBody, tr("Body"));
+    tabs->addTab(tabCookies, tr("Cookies"));
+    tabs->addTab(tabHeaders, tr("Headers"));
 
     mainLayout->addWidget(tabs);
     setLayout(mainLayout);
@@ -27,9 +27,9 @@ ResponseView::ResponseView()
 
 void ResponseView::clear()
 {
-    bodyTab->clear();
-    cookiesTab->clear();
-    headersTab->clear();
+    tabBody->clear();
+    tabCookies->clear();
+    tabHeaders->clear();
 }
 
 void ResponseView::processResponse(QNetworkReply *reply)
@@ -42,7 +42,7 @@ void ResponseView::processResponse(QNetworkReply *reply)
     QByteArray responseArray = reply->readAll();
     QList<QNetworkCookie> cookies = cookiesHeader.value<QList<QNetworkCookie> >();
 
-    bodyTab->processBody(responseArray, mimeTypeHeader.toString());
-    cookiesTab->processCookies(cookies);
-    headersTab->processHeaders(reply->rawHeaderPairs());
+    tabBody->processBody(responseArray, mimeTypeHeader.toString());
+    tabCookies->processCookies(cookies);
+    tabHeaders->processHeaders(reply->rawHeaderPairs());
 }

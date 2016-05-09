@@ -1,5 +1,5 @@
-#ifndef BODYTAB_H
-#define BODYTAB_H
+#ifndef TABRESPONSEBODY_H
+#define TABRESPONSEBODY_H
 
 #include <QPixmap>
 #include <QWidget>
@@ -9,12 +9,12 @@ class QHBoxLayout;
 class QPushButton;
 class QComboBox;
 
-class BodyTab : public QWidget
+class TabResponseBody : public QWidget
 {
     Q_OBJECT
 
 public:
-    BodyTab();
+    TabResponseBody();
     void clear();
     void processBody(QByteArray body, QString mimeType);
 
@@ -40,4 +40,4 @@ private:
     QComboBox *formatsCombo;
 };
 
-#endif // BODYTAB_H
+#endif // TABRESPONSEBODY_H

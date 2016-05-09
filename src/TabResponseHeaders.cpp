@@ -3,9 +3,9 @@
 
 #include <boost/foreach.hpp>
 
-#include "HeadersTab.h"
+#include "TabResponseHeaders.h"
 
-HeadersTab::HeadersTab()
+TabResponseHeaders::TabResponseHeaders()
 {
     createHeaderTable();
 
@@ -14,13 +14,13 @@ HeadersTab::HeadersTab()
     setLayout(mainLayout);
 }
 
-void HeadersTab::clear()
+void TabResponseHeaders::clear()
 {
     headersTable->setRowCount(2);
     headersTable->setColumnCount(2);
 }
 
-void HeadersTab::processHeaders(const QList<QNetworkReply::RawHeaderPair>& pairs)
+void TabResponseHeaders::processHeaders(const QList<QNetworkReply::RawHeaderPair>& pairs)
 {
     headersTable->setRowCount(pairs.count());
     int row = 0;
@@ -40,7 +40,7 @@ void HeadersTab::processHeaders(const QList<QNetworkReply::RawHeaderPair>& pairs
     headersTable->resizeColumnsToContents();
 }
 
-void HeadersTab::createHeaderTable()
+void TabResponseHeaders::createHeaderTable()
 {
     QStringList columns;
     columns << "name" << "value";

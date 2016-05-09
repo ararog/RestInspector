@@ -4,9 +4,9 @@
 
 #include <boost/foreach.hpp>
 
-#include "CookiesTab.h"
+#include "TabResponseCookies.h"
 
-CookiesTab::CookiesTab()
+TabResponseCookies::TabResponseCookies()
 {
     createCookiesTable();
 
@@ -15,13 +15,13 @@ CookiesTab::CookiesTab()
     setLayout(mainLayout);
 }
 
-void CookiesTab::clear()
+void TabResponseCookies::clear()
 {
     cookiesTable->setRowCount(2);
     cookiesTable->setColumnCount(2);
 }
 
-void CookiesTab::processCookies(const QList<QNetworkCookie>& cookies)
+void TabResponseCookies::processCookies(const QList<QNetworkCookie>& cookies)
 {
     cookiesTable->setRowCount(cookies.count());
 
@@ -42,7 +42,7 @@ void CookiesTab::processCookies(const QList<QNetworkCookie>& cookies)
     cookiesTable->resizeColumnsToContents();
 }
 
-void CookiesTab::createCookiesTable()
+void TabResponseCookies::createCookiesTable()
 {
     QStringList columns;
     columns << "name" << "value";

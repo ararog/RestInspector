@@ -1,5 +1,5 @@
-#ifndef HEADERSTAB_H
-#define HEADERSTAB_H
+#ifndef TABRESPONSEHEADERS_H
+#define TABRESPONSEHEADERS_H
 
 #include <QPixmap>
 #include <QWidget>
@@ -7,12 +7,12 @@
 
 class QTableWidget;
 
-class HeadersTab : public QWidget
+class TabResponseHeaders : public QWidget
 {
     Q_OBJECT
 
 public:
-    HeadersTab();
+    TabResponseHeaders();
     void clear();
     void processHeaders(const QList<QNetworkReply::RawHeaderPair>& pairs);
 
@@ -21,4 +21,4 @@ private:
     QTableWidget *headersTable;
 };
 
-#endif // HEADERSTAB_H
+#endif // TABRESPONSEHEADERS_H

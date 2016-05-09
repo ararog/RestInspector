@@ -11,9 +11,9 @@ class QTabWidget;
 class QPushButton;
 class QVBoxLayout;
 class QNetworkReply;
-class BodyTab;
-class HeadersTab;
-class CookiesTab;
+class TabResponseBody;
+class TabResponseHeaders;
+class TabResponseCookies;
 
 class ResponseView : public QWidget
 {
@@ -27,9 +27,9 @@ public:
 private:
 
     QTabWidget *tabs;
-    BodyTab *bodyTab;
-    HeadersTab *headersTab;
-    CookiesTab *cookiesTab;
+    TabResponseBody *tabBody;
+    TabResponseHeaders *tabHeaders;
+    TabResponseCookies *tabCookies;
     int statusCode;
 
 };

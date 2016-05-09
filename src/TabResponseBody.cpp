@@ -2,9 +2,9 @@
 #include <QStringList>
 #include <QDomDocument>
 
-#include "BodyTab.h"
+#include "TabResponseBody.h"
 
-BodyTab::BodyTab()
+TabResponseBody::TabResponseBody()
 {
     createFormmatLayout();
 
@@ -15,26 +15,26 @@ BodyTab::BodyTab()
     setLayout(mainLayout);
 }
 
-void BodyTab::clear()
+void TabResponseBody::clear()
 {
     responseEditor->setPlainText("");
 }
 
-void BodyTab::processBody(QByteArray body, QString mimeType)
+void TabResponseBody::processBody(QByteArray body, QString mimeType)
 {
     responseMimeType = mimeType;
     responseContent = QString::fromUtf8(body.data());
     this->prettyFormat();
 }
 
-void BodyTab::formatAsJson(const QString &content)
+void TabResponseBody::formatAsJson(const QString &content)
 {
     QJsonDocument doc = QJsonDocument::fromJson(content.toUtf8());
     QString formattedString = doc.toJson(QJsonDocument::Indented);
     responseEditor->setPlainText(formattedString);
 }
 
-void BodyTab::formatAsXml(const QString &content)
+void TabResponseBody::formatAsXml(const QString &content)
 {
     QDomDocument doc("xml");
     doc.setContent(content);
@@ -42,7 +42,7 @@ void BodyTab::formatAsXml(const QString &content)
     responseEditor->setPlainText(formattedString);
 }
 
-void BodyTab::prettyFormat()
+void TabResponseBody::prettyFormat()
 {
     if(responseMimeType.contains("application/json"))
     {
@@ -61,14 +61,14 @@ void BodyTab::prettyFormat()
     rawButton->setChecked(false);
 }
 
-void BodyTab::rawFormat()
+void TabResponseBody::rawFormat()
 {
     responseEditor->setPlainText(responseContent);
     prettyButton->setChecked(false);
     rawButton->setChecked(true);
 }
 
-void BodyTab::formatChanged(const QString &text)
+void TabResponseBody::formatChanged(const QString &text)
 {
     if(text == "JSON")
     {
@@ -83,7 +83,7 @@ void BodyTab::formatChanged(const QString &text)
     }
 }
 
-void BodyTab::createFormmatLayout()
+void TabResponseBody::createFormmatLayout()
 {
     prettyButton = createButton(tr("Pretty"), this, SLOT(prettyFormat()));
     rawButton = createButton(tr("Raw"), this, SLOT(rawFormat()));
@@ -101,7 +101,7 @@ void BodyTab::createFormmatLayout()
     formatLayout->addStretch();
 }
 
-QPushButton *BodyTab::createButton(const QString &text, QWidget *receiver,
+QPushButton *TabResponseBody::createButton(const QString &text, QWidget *receiver,
                                       const char *member)
 {
     QPushButton *button = new QPushButton(text);
