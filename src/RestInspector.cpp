@@ -7,6 +7,7 @@
 
 #include "RestInspector.h"
 #include "PairsEditor.h"
+#include "RequestView.h"
 #include "ResponseView.h"
 
 RestInspector::RestInspector()
@@ -24,6 +25,9 @@ RestInspector::RestInspector()
 
     blankView = new QWidget;
     blankView->show();
+
+    requestView = new RequestView;
+    requestView->hide();
 
     responseView = new ResponseView;
     responseView->hide();
@@ -43,6 +47,7 @@ RestInspector::RestInspector()
 
     clientLayout = new QVBoxLayout;
     clientLayout->addLayout(fieldsLayout);
+    clientLayout->addWidget(requestView);
     clientLayout->addLayout(extrasLayout);
     clientLayout->addLayout(commandsLayout);
     clientLayout->addWidget(responseView);
@@ -99,7 +104,13 @@ void RestInspector::sendRequest()
 			request.setRawHeader(QByteArray().append(pair.first), QByteArray().append(pair.second));
 		}
 
-		manager->sendCustomRequest(request, verb);
+        QBuffer *buffer = NULL;
+        if(method != "GET") {
+            buffer = new QBuffer();
+            buffer->setData(requestView->body());
+        }
+
+		manager->sendCustomRequest(request, verb, buffer);
     }
 }
 
@@ -111,6 +122,8 @@ void RestInspector::resetRequest()
     headersEditor->clear();
     responseView->clear();
     responseView->hide();
+    requestView->clear();
+    requestView->hide();
     blankView->show();
 }
 
@@ -135,6 +148,18 @@ void RestInspector::toggleHeaders()
         headersEditor->show();
 }
 
+void RestInspector::methodChanged(const QString &text)
+{
+    if(text == "GET")
+    {
+        requestView->hide();
+    }
+    else
+    {
+        requestView->show();
+    }
+}
+
 void RestInspector::createHistoryLayout()
 {
     historyLayout = new QVBoxLayout;
@@ -149,6 +174,7 @@ void RestInspector::createFieldsLayout()
     methods << "GET" << "POST" << "PUT" << "PATH" << "DELETE" << "COPY" << "HEAD" << "OPTIONS";
     httpMethodsCombo = new QComboBox;
     httpMethodsCombo->addItems(methods);
+    httpMethodsCombo->connect(httpMethodsCombo, SIGNAL(currentTextChanged(const QString &)), this, SLOT(methodChanged(const QString &)));
 
     showUrlParamsButton = createButton(tr("URL Params"), this, SLOT(toggleUrlParams()));
     showHeadersButton = createButton(tr("Headers"), this, SLOT(toggleHeaders()));

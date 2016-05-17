@@ -10,6 +10,7 @@ class PairsEditor;
 class QPushButton;
 class QTextEdit;
 class QComboBox;
+class QUrlQuery;
 
 class RequestView : public QWidget
 {
@@ -18,6 +19,7 @@ class RequestView : public QWidget
 public:
     RequestView();
     void clear();
+    QByteArray body();
 
 private slots:
     void formBody();
@@ -28,9 +30,10 @@ private:
     void formatAsJson(const QString &content);
     void formatAsXml(const QString &content);
     void createFormmatLayout();
+    QUrlQuery encodePairs(QList<QPair<QString, QString> > pairs);
     QPushButton *createButton(const QString &text, QWidget *receiver, const char *member);
 
-    QTextEdit *requestEditor;
+    QTextEdit *rawEditor;
     QString requestContent;
 
 	PairsEditor *formEditor;

@@ -1,6 +1,9 @@
 #include <QtWidgets>
 #include <QStringList>
 #include <QDomDocument>
+#include <QUrlQuery>
+
+#include <boost/foreach.hpp>
 
 #include "PairsEditor.h"
 #include "RequestView.h"
@@ -11,18 +14,45 @@ RequestView::RequestView()
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     formEditor = new PairsEditor("Key");
-    requestEditor = new QTextEdit;
+    rawEditor = new QTextEdit;
     mainLayout->addLayout(formatLayout);
     mainLayout->addWidget(formEditor);
-    mainLayout->addWidget(requestEditor);
+    mainLayout->addWidget(rawEditor);
+
+    formButton->setChecked(true);
+    rawButton->setChecked(false);
+    formEditor->show();
+    rawEditor->hide();
+
     setLayout(mainLayout);
 }
+
+void RequestView::clear()
+{
+    formEditor->clear();
+    rawEditor->setPlainText("");
+}
+
+QByteArray RequestView::body()
+{
+    if(formButton->isChecked())
+    {
+        QUrlQuery postParams = encodePairs(formEditor->pairs());
+        return postParams.toString(QUrl::FullyEncoded).toUtf8();
+    }
+    else
+    {
+        QString body = rawEditor->toPlainText();
+        return QByteArray().append(body);
+    }
+}
+
 
 void RequestView::formatAsJson(const QString &content)
 {
     QJsonDocument doc = QJsonDocument::fromJson(content.toUtf8());
     QString formattedString = doc.toJson(QJsonDocument::Indented);
-    requestEditor->setPlainText(formattedString);
+    rawEditor->setPlainText(formattedString);
 }
 
 void RequestView::formatAsXml(const QString &content)
@@ -30,24 +60,24 @@ void RequestView::formatAsXml(const QString &content)
     QDomDocument doc("xml");
     doc.setContent(content);
     QString formattedString = doc.toString(4);
-    requestEditor->setPlainText(formattedString);
+    rawEditor->setPlainText(formattedString);
 }
 
 void RequestView::formBody()
 {
-    requestEditor->setPlainText(requestContent);
-    formButton->setChecked(false);
-    rawButton->setChecked(true);
-    requestEditor->show();
-    formEditor->hide();
+    formButton->setChecked(true);
+    rawButton->setChecked(false);
+    rawEditor->hide();
+    formEditor->show();
 }
 
 void RequestView::rawBody()
 {
-    formButton->setChecked(true);
-    rawButton->setChecked(false);
-    requestEditor->hide();
-    formEditor->show();
+    rawEditor->setPlainText(requestContent);
+    formButton->setChecked(false);
+    rawButton->setChecked(true);
+    rawEditor->show();
+    formEditor->hide();
 }
 
 void RequestView::formatChanged(const QString &text)
@@ -61,7 +91,7 @@ void RequestView::formatChanged(const QString &text)
         formatAsXml(requestContent);
     }
     else {
-        requestEditor->setPlainText(requestContent);
+        rawEditor->setPlainText(requestContent);
     }
 }
 
@@ -83,10 +113,24 @@ void RequestView::createFormmatLayout()
     formatLayout->addStretch();
 }
 
+QUrlQuery RequestView::encodePairs(QList<QPair<QString, QString> > pairs)
+{
+    QPair<QString, QString> pair;
+    QUrlQuery query;
+
+    BOOST_FOREACH(pair, pairs)
+    {
+        query.addQueryItem(pair.first, pair.second);
+    }
+
+    return query;
+}
+
 QPushButton *RequestView::createButton(const QString &text, QWidget *receiver,
                                       const char *member)
 {
     QPushButton *button = new QPushButton(text);
     button->connect(button, SIGNAL(clicked()), receiver, member);
+    button->setCheckable(true);
     return button;
 }

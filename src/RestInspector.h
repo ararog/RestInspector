@@ -12,6 +12,7 @@ class QComboBox;
 class QPushButton;
 class QVBoxLayout;
 class ResponseView;
+class RequestView;
 class QNetworkReply;
 class QNetworkRequest;
 class QNetworkAccessManager;
@@ -34,6 +35,7 @@ private slots:
     void toggleUrlParams();
     void toggleHeaders();
     void replyFinished(QNetworkReply* reply);
+    void methodChanged(const QString &text);    
 
 private:
     void createHistoryLayout();
@@ -54,6 +56,7 @@ private:
     QPushButton *showUrlParamsButton;
     QPushButton *showHeadersButton;
 
+    RequestView *requestView;
     ResponseView *responseView;
 
 	PairsEditor *headersEditor;
